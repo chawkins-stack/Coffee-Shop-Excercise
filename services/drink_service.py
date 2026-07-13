@@ -7,7 +7,7 @@ class DrinkService:
         self._repository = repository
 
     def create_drink(self, drink: Drink) -> Drink:
-        if self._repository.get_by_id(drink.name) is not None:
+        if self._repository.get_by_name(drink.name) is not None:
             raise DuplicateDrinkError(drink.name)
         return self._repository.add(drink)
     
@@ -15,7 +15,7 @@ class DrinkService:
         return self._repository.get_all()
     
     def get_drink(self, name: str) -> Drink:
-        drink = self._repository.get_by_id(name)
+        drink = self._repository.get_by_name(name)
         if drink is None:
             raise DrinkNotFoundError(name)
         return drink

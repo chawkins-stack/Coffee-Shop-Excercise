@@ -36,4 +36,4 @@ class Purchase_repository:
             self._purchases.remove(purchase)
             return True
         return False
-    
+     
