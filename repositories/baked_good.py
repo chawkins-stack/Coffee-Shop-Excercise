@@ -1,4 +1,4 @@
-from baked.good.py import BakedGood
+from models.baked_good import BakedGood
 
 class Baked_good_repository:
     def __init__(self):
@@ -18,13 +18,10 @@ class Baked_good_repository:
         existing_baked_good = self.get_by_id(name)
         if existing_baked_good:
             existing_baked_good.name = baked_good.name
-            existing_baked_good.purchasing_cost = baked_good.purchasing_cost
-            existing_baked_good.marking_percentage = baked_good.marking_percentage
-            existing_baked_good.vendor_name = baked_good.vendor_name
-            existing_baked_good.allergens = baked_good.allergens
-            existing_baked_good.sales_price = baked_good.sales_price
             return existing_baked_good
         return None
+
+    
 
     def delete(self, name: str) -> bool:
         baked_good = self.get_by_id(name)
