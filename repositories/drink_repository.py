@@ -19,5 +19,8 @@ class DrinkRepository:
         return drink
 
     def delete(self, name: str) -> bool:
-        self._drinks.remove(name)
-        return True
+        drinks = self.get_all
+        if drinks.pop(name):
+            return True
+
+        return False
