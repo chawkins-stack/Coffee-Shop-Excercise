@@ -20,16 +20,16 @@ class CustomerService:
     def get_customer(self, name: str) -> Customer:
         customer = self._repository.get_by_id(name)
         if customer is None:
-            raise DrinkNotFoundError(name)
+            raise CustomerNotFoundError(name)
         return customer
 
     def update_customer(self, name: str, updated: Customer) -> Customer:
         customer = self._repository.update(name, updated)
         if customer is None:
-            raise DrinkNotFoundError(name)
+            raise CustomerNotFoundError(name)
         return customer
 
     def delete_customer(self, name: str) -> bool:
         if not self._repository.delete(name):
-            raise DrinkNotFoundError(name)
+            raise CustomerNotFoundError(name)
         return True
