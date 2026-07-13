@@ -1,6 +1,3 @@
-Here’s a complete, polished **README.md** tailored specifically for your **Coffee-Shop-Exercise** repo and the requirements shown in your Google Doc (Drink model, DrinkRepository, DrinkService, custom exceptions, CRUD behavior, etc.).  
-This README is structured like a professional Python project and reflects the architecture you’ve built.
-
 ---
 
 # Coffee Shop Exercise — Python Small Group Project (Express‑O)
