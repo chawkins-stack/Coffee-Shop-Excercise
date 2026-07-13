@@ -15,7 +15,7 @@ class DrinkService:
         return self._repository.get_all()
     
     def get_drink(self, name: str) -> Drink:
-        drink = self._repository.get_by_id(name)
+        drink = self._repository.get_by_name(name)
         if drink is None:
             raise DrinkNotFoundError(name)
         return drink
