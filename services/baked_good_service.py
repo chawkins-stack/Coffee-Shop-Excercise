@@ -11,7 +11,7 @@ class Baked_goodService:
             raise DuplicateBakedGoodError(f"Baked good '{baked_good.name}' already exists.")
         return self._repository.add(baked_good)
     
-    def get_all_baked_goods(self) -> list[Baked_good]:
+        def get_all_baked_goods(self) -> list[Baked_good]:
         return self._repository.get_all()
     
     def get_by_id(self, name: str) -> Baked_good:
@@ -25,6 +25,5 @@ class Baked_goodService:
     
     def delete_baked_good(self, name: str) -> None:
         self._repository.delete(name)
-        
-
+    
  
