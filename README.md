@@ -1,4 +1,4 @@
-# Coffee Shop Exercise
+# Coffee Shop Exercise — Python Small Group Project (Express‑O)
 
 This repository is a small Python exercise that models a coffee shop domain using object-oriented programming. It is organized around domain models, repositories, services, and custom exceptions to demonstrate a layered design.
 
@@ -83,6 +83,6 @@ service.create_drink(drink)
 print(service.get_all_drinks())
 ```
 
-## Notes
+This project is for educational use.  
 
 This is an educational repository focused on object-oriented design and layered architecture rather than a full production-ready application.
