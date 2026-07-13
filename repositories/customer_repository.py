@@ -18,7 +18,7 @@ class CustomerRepository:
         self._customers.append(customer)
         return customer
 
-    def update(self, name: str, customer: Customer) -> Customer | None:
+    def update(self, id: Number, customer: Customer) -> Customer | None:
         for i, c in enumerate(self._customers):
             if c.name == name:
                 self._customers[i] = customer

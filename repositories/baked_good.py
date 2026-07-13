@@ -15,7 +15,7 @@ class Baked_good_repository:
         self._baked_goods.append(baked_good)
         return baked_good
     
-    def update (self, name: str, baked_good: BakedGood) -> BakedGood | None:
+    def update (self, id: Number: str, baked_good: BakedGood) -> BakedGood | None:
         existing_baked_good = self.get_by_id(name)
         if existing_baked_good:
             existing_baked_good.name = baked_good.name
