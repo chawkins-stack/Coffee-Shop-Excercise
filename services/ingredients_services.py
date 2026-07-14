@@ -17,6 +17,9 @@ class IngredientService:
     def get_all_ingredients(self) -> list[Ingredient]:
         return self._repository.get_all()
     
+    def get_by_name(self, name: str) -> Ingredient | None:
+        return next((ingredient for ingredient in self._ingredients if ingredient.name == name), None)
+    
     def get_ingredient(self, name: str) -> Ingredient:
         ingredient = self._repository.get_by_id(name)
         if ingredient is None:

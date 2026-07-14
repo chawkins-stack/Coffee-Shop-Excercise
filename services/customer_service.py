@@ -24,6 +24,9 @@ class CustomerService:
         if customer is None:
             raise CustomerNotFoundError(f"Customer with ID '{id}' was not found.")
         return customer
+    
+    def get_by_name(self, name: str) -> Customer | None:
+        return next((customer for customer in self._customers if customer.name == name), None)
 
     def update_customer(self, name: str, updated: Customer) -> Customer:
         customer = self._repository.update(name, updated)
