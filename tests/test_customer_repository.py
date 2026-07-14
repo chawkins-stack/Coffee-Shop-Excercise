@@ -11,3 +11,12 @@ def test_get_by_id_is_c_05():
 
 def test_get_by_id_is_none():
     assert customer_dataset().get_by_id(9898) is None
+
+def test_get_by_name_is_c_03():
+    assert customer_dataset().get_by_name("Arlette") == c_03
+
+def test_get_by_name_is_c_06():
+    assert customer_dataset().get_by_name("Jarquetta") == c_06
+
+def test_get_by_name_is_none():
+    assert customer_dataset().get_by_name("LeBron James") is None
