@@ -6,7 +6,7 @@ from repositories.baked_good_repository import BakedGood
 from repositories.customer_repository import CustomerRepository
 from repositories.drink_repository import Drink
 from models.customer import Customer
-from exceptions import DuplicateCustomerError
+from exceptions import CustomerNotFoundError, DuplicateCustomerError
 
 
 class CustomerService:
@@ -20,8 +20,8 @@ class CustomerService:
             )
 
         if not self.is_valid_email(customer.email):
-            raise ValueError(
-                f"Invalid email format: '{customer.email}'"
+            raise CustomerNotFoundError(
+                f"Customer with ID '{customer.id}' has an invalid email format."
             )
 
         if not self.is_unique_email(customer.email):
@@ -45,14 +45,14 @@ class CustomerService:
         existing_customer = self._repository.get_by_id(customer.id)
 
         if existing_customer is None:
-            raise ValueError(
+            raise CustomerNotFoundError(
                 f"Customer with ID '{customer.id}' does not exist."
             )
 
         # Validate email format
         if not self.is_valid_email(customer.email):
-            raise ValueError(
-                f"Invalid email format: '{customer.email}'"
+            raise CustomerNotFoundError(
+                f"Customer with ID '{customer.id}' has an invalid email format."
             )
 
         # Check that another customer doesn't already have this email
