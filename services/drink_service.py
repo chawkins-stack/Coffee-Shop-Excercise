@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import ROUND_HALF_EVEN, Decimal
 
 from repositories.drink_repository import DrinkRepository
 from models.drink import Drink
@@ -12,7 +12,7 @@ class DrinkService:
         # Duplicate name check
         if self._repository.get_by_name(drink.name) is not None:
             raise DuplicateDrinkError(drink.name)
-        
+
         # Validation
         self._validate_drink(drink)
 
@@ -20,10 +20,10 @@ class DrinkService:
         drink.sale_price = self._calculate_sale_price(drink.price)
 
         return self._repository.add(drink)
-    
+
     def get_all_drinks(self) -> list[Drink]:
         return self._repository.get_all()
-    
+
     def get_drink(self, name: str) -> Drink:
         drink = self._repository.get_by_name(name)
         if drink is None:
@@ -46,7 +46,7 @@ class DrinkService:
         if not self._repository.delete(name):
             raise DrinkNotFoundError(name)
         return True
-    
+
     # -------------------------
     # Validation Helpers
     # -------------------------
@@ -55,11 +55,11 @@ class DrinkService:
         # Must contain ingredient
         if not drink.ingredients or len(drink.ingredients) == 0:
             raise InvalidDrinkError("Drink must contain at least one ingredient.")
-        
+
         # Price must be valid
         if drink.price is None or drink.price <= 0:
             raise InvalidDrinkError("Drink must have a valid price greater than 0.")
-        
+
         # Ingredients must be strings
         if any(not isinstance(i, str) for i in drink.ingredients):
             raise InvalidDrinkError("All ingredients must be strings.")
@@ -68,12 +68,9 @@ class DrinkService:
     # Sale Price Logic
     # -------------------------
 
-    def _calculate_sale_price(self, price: Decimal) -> Decimal:
-        """
-        Example sale price logic:
-        - 10% discount
-        - Rounded to 2 decimal places
-        """
-        discount = Decimal("0.10")
-        sale_price = price * (Decimal("1.00") - discount)
-        return sale_price.quantize(Decimal("0.01"))
+    def _calculate_sale_price(self, drink: Drink, price: Decimal) -> Decimal:
+        cost_to_produce = drink.cost_to_produce
+        markup = drink.markup_percentage
+        sale_price = cost_to_produce + (cost_to_produce * markup )
+
+        return sale_price.quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
