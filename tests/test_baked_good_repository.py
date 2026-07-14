@@ -35,7 +35,6 @@ def test_add_baked_good():
     data.add(bg_10)
     assert data.get_by_id(1010) == bg_10
 
-<<<<<<< HEAD
 # def test_update_existing_baked_good():
 #     baked_goods_dataset().update(1002, "Brioche Cinnamon Roll")
 #     assert baked_goods_dataset().get_by_name("Brioche Cinnamon Roll") == bg_02
@@ -47,8 +46,7 @@ def test_delete_existing_baked_good():
 
 def test_delete_nonexistent_baked_good():
     assert baked_goods_dataset().delete(9998) is False
-=======
+
 def test_update_existing_baked_good():
     baked_goods_dataset().update(1002, "Brioche Cinnamon Roll")
     assert baked_goods_dataset().get_by_name("Brioche Cinnamon Roll") == bg_02
->>>>>>> 7ac567f8f64043611508394bcedf3a864eb038dc
