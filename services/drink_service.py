@@ -1,4 +1,4 @@
-from decimal import Decimal
+from decimal import ROUND_HALF_EVEN, Decimal
 
 from repositories.drink_repository import DrinkRepository
 from models.drink import Drink
@@ -68,12 +68,9 @@ class DrinkService:
     # Sale Price Logic
     # -------------------------
 
-    def _calculate_sale_price(self, price: Decimal) -> Decimal:
-        """
-        Example sale price logic:
-        - 10% discount
-        - Rounded to 2 decimal places
-        """
-        discount = Decimal("0.10")
-        sale_price = price * (Decimal("1.00") - discount)
-        return sale_price.quantize(Decimal("0.01"))
+    def _calculate_sale_price(self, drink: Drink, price: Decimal) -> Decimal:
+        cost_to_produce = drink.cost_to_produce
+        markup = drink.markup_percentage
+        sale_price = cost_to_produce + (cost_to_produce * markup )
+
+        return sale_price.quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
