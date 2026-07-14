@@ -52,3 +52,4 @@ class CustomerService:
         drink_total = sum(drink.price for drink in customer.drinks)
         lifetime_spend_total = customer.lifetime_spend + (drink_total + baked_goods_total)
         return lifetime_spend_total.quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
+    
