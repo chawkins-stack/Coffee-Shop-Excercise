@@ -2,7 +2,8 @@ from decimal import ROUND_HALF_EVEN, Decimal
 from numbers import Number
 import re
 
-from repositories.customer_repository import Customer_Repository
+from repositories.baked_good_repository import BakedGood
+from repositories.drink_repository import Drink
 from models.customer import Customer
 from exceptions import DuplicateCustomerError, DuplicateCutomerError
 
@@ -47,6 +48,7 @@ class CustomerService:
         return existing_customer is None
     
     def _calculate_sale_price(self, customer: Customer, price: Decimal) -> Decimal:
-        cost_to_produce = customer.cost_to_produce
-        sale_price = cost_to_produce + (cost_to_produce * price)
-        return sale_price.quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
+        baked_goods_total = sum(baked_good.price for baked_good in customer.baked_goods)
+        drink_total = sum(drink.price for drink in customer.drinks)
+        lifetime_spend_total = customer.lifetime_spend + (drink_total + baked_goods_total)
+        return lifetime_spend_total.quantize(Decimal("0.01"), rounding=ROUND_HALF_EVEN)
