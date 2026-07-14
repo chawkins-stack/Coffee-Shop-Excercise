@@ -8,3 +8,4 @@ class Customer:
     name: str
     email: str
     lifetime_spent: Decimal
+    
