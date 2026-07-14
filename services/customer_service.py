@@ -79,6 +79,9 @@ class CustomerService:
         existing_customer = self._repository.get_by_email(email)
         return existing_customer is None
 
+        # calculate the sale price for a customer based on their lifetime spend and the prices of baked goods and drinks they have purchased
+
+        
     def _calculate_sale_price(
         self, customer: Customer, price: Decimal
     ) -> Decimal:
