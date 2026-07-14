@@ -28,7 +28,7 @@ class PurchaseService:
 
     def get_purchase_by_timestamp(self, timestamp: datetime) -> Purchase | None:
         return self._repository.get_by_id(timestamp.astimezone(timezone.utc))
-    
+
     def get_purchase_by_timestamp_not_found(self, timestamp: datetime) -> Purchase | None:
         purchase = self._repository.get_by_id(timestamp.astimezone(timezone.utc))
         if purchase is None:
@@ -43,4 +43,3 @@ class PurchaseService:
     def delete_purchase(self, timestamp: datetime) -> bool:
         timestamp = timestamp.astimezone(timezone.utc)
         return self._repository.delete(timestamp)
-
