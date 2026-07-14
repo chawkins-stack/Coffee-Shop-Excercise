@@ -17,6 +17,9 @@ class CustomerRepository:
     def get_by_name(self, name: str) -> Customer | None:
         return next((c for c in self._customers if c.name == name), None)
 
+    def get_by_email(self, email: str) -> Customer | None:
+        return next((c for c in self._customers if c.email == email), None)
+
     def add(self, customer: Customer) -> Customer:
         self._customers.append(customer)
         return customer
@@ -33,3 +36,4 @@ class CustomerRepository:
             self._customers.remove(customer)
             return True
         return False
+    
