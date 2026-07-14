@@ -9,5 +9,5 @@ class Drink:
     name: str
     ingredients: list[Ingredient]
     cost_to_produce: Decimal
-    markup_percentage: float
+    markup_percentage: Decimal
     sale_price: Decimal
