@@ -22,7 +22,7 @@ class BakedGoodService:
         return self._repository.get_by_id(id)
     
     def get_by_name(self, name: str) -> Baked_good:
-        return self._repository.get_by_name(name)
+        return self._repository.get_by_name(name) 
 
     
     def add_baked_good(self, baked_good: Baked_good) -> Baked_good:
