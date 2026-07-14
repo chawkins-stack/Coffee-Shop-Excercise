@@ -1,8 +1,14 @@
+from unicodedata import decimal
+
 from models import baked_good
+from models import purchase
 from repositories.purchase_repository import Purchase_repository
 from models.purchase import Purchase
 from exceptions import DuplicatePurchaseError
 from datetime import datetime, timezone
+from decimal import Decimal, ROUND_HALF_EVEN
+
+purchase.baked_good.price = Decimal(purchase.baked_good.price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
 
 class PurchaseService:
     def __init__(self, repository: Purchase_repository):
@@ -13,7 +19,8 @@ class PurchaseService:
 
         if self._repository.get_by_id(purchase.timestamp) is not None:
             raise DuplicatePurchaseError(f"Purchase with timestamp '{purchase.timestamp}' already exists.")
-        purchase.baked_good.price = round(purchase.baked_good.price, 2)
+        purchase.baked_good.price = Decimal(purchase.baked_good.price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
+        
         return self._repository.add(purchase)
     
     def get_all_purchases(self) -> list[Purchase]:
@@ -24,7 +31,7 @@ class PurchaseService:
     
     def update_purchase(self, timestamp: datetime, purchase: Purchase) -> Purchase | None:
         purchase.timestamp = purchase.timestamp.astimezone(timezone.utc)
-        purchase.baked_good.price = round(purchase.baked_good.price, 2)
+        purchase.baked_good.price = Decimal(purchase.baked_good.price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
         return self._repository.update(timestamp.astimezone(timezone.utc), purchase)
     
     def delete_purchase(self, timestamp: datetime) -> bool:
