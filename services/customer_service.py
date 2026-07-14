@@ -3,12 +3,13 @@ from numbers import Number
 import re
 
 from repositories.baked_good_repository import BakedGood
+from repositories.customer_repository import CustomerRepository
 from repositories.drink_repository import Drink
 from models.customer import Customer
 from exceptions import DuplicateCustomerError, DuplicateCutomerError
 
 class CustomerService:
-    def __init__(self, repository: Customer_Repository):
+    def __init__(self, repository: CustomerRepository):
         self._repository = repository
 
     def create_customer(self, customer: Customer) -> Customer:
