@@ -6,7 +6,7 @@ from repositories.baked_good_repository import BakedGood
 from repositories.customer_repository import CustomerRepository
 from repositories.drink_repository import Drink
 from models.customer import Customer
-from exceptions import DuplicateCustomerError
+from exceptions import CustomerNotFoundError, DuplicateCustomerError
 
 
 class CustomerService:
@@ -20,7 +20,7 @@ class CustomerService:
             )
 
         if not self.is_valid_email(customer.email):
-            raise ValueError(
+            raise CustomerNotFoundError(
                 f"Invalid email format: '{customer.email}'"
             )
 
@@ -45,13 +45,13 @@ class CustomerService:
         existing_customer = self._repository.get_by_id(customer.id)
 
         if existing_customer is None:
-            raise ValueError(
+            raise CustomerNotFoundError(
                 f"Customer with ID '{customer.id}' does not exist."
             )
 
         # Validate email format
         if not self.is_valid_email(customer.email):
-            raise ValueError(
+            raise CustomerNotFoundError(
                 f"Invalid email format: '{customer.email}'"
             )
 
@@ -81,7 +81,6 @@ class CustomerService:
 
         # calculate the sale price for a customer based on their lifetime spend and the prices of baked goods and drinks they have purchased
 
-        
     def _calculate_sale_price(
         self, customer: Customer, price: Decimal
     ) -> Decimal:
