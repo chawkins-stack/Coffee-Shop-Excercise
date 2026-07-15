@@ -6,7 +6,7 @@ from models.customer import Customer
 class CustomerRepository:
     def __init__(self):
         self._customers: list[Customer] = []
-        self._next_id = 1
+        self._next_id = 1201
 
     def get_all(self) -> list[Customer]:
         return self._customers

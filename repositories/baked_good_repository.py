@@ -5,7 +5,7 @@ from numbers import Number
 class BakedGoodRepository:
     def __init__(self):
         self._baked_goods: list[BakedGood] = []
-        self._next_id = 1
+        self._next_id = 6701
 
     def get_all(self) -> list[BakedGood]:
         return self._baked_goods
