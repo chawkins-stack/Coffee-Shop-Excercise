@@ -105,7 +105,7 @@ def add_ingredient_ui():
 
     ingredient = Ingredient(
         name=name,
-        purchase_cost=purchase_cost,
+        purchasing_cost=purchase_cost,
         unit_amount=unit_amount,
         unit_of_measure=unit_of_measure
     )
@@ -125,25 +125,25 @@ def create_purchase_ui():
         print(f"{c.id}. {c.name}")
 
     customer_id = int(input("Choose customer ID: "))
-    customer = customer_service.get_customer_by_id(customer_id)
+    customer = customer_service.get_by_id(customer_id)
 
     # Select items
     print("\nDrinks:")
     drinks = drink_service.get_all_drinks()
     for d in drinks:
-        print(f"{d.id}. {d.name} - ${d.price}")
+        print(f"{d.id}. {d.name} - ${d.sale_price}")
 
     print("\nBaked Goods:")
     baked_goods = baked_good_service.get_all_baked_goods()
     for b in baked_goods:
-        print(f"{b.id}. {b.name} - ${b.price}")
+        print(f"{b.id}. {b.name} - ${b.sale_price}")
 
     item_ids = input("Enter item IDs separated by commas: ")
     item_ids = [int(x.strip()) for x in item_ids.split(",")]
 
     purchase = Purchase(
-        customer_id=customer_id,
-        item_ids=item_ids,
+        Customer=customer_service.get_by_id(customer_id),
+        items=item_ids,
         timestamp=datetime.now(timezone.utc)
     )
 
