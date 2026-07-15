@@ -10,5 +10,5 @@ class BakedGood:
     marking_percentage: Decimal
     vendor_name: str
     allergens: list[str]
-    sales_price: Decimal
+    sale_price: Optional[Decimal] = None
     id: Optional[Number] = None
