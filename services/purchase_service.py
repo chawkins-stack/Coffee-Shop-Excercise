@@ -10,7 +10,7 @@ from decimal import Decimal, ROUND_HALF_EVEN
 
 class PurchaseService:
     def __init__(self, purchase_repository: PurchaseRepository, customer_service: CustomerService):
-        self._customer_repository = customer_service._repository
+        self._customer_service = customer_service
         self._repository = purchase_repository
 
     def create_purchase(self, purchase: Purchase) -> Purchase:
