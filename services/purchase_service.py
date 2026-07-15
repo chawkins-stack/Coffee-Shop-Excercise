@@ -1,6 +1,7 @@
 
 from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
+from services.customer_service import CustomerService
 from exceptions import DuplicatePurchaseError, PurchaseNotFoundError
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_EVEN
@@ -8,7 +9,8 @@ from decimal import Decimal, ROUND_HALF_EVEN
 # purchase.BakedGood.sales_price = Decimal(purchase.BakedGood.sales_price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
 
 class PurchaseService:
-    def __init__(self, purchase_repository: PurchaseRepository):
+    def __init__(self, purchase_repository: PurchaseRepository, customer_service: CustomerService):
+        self._customer_repository = customer_service._repository
         self._repository = purchase_repository
 
     def create_purchase(self, purchase: Purchase) -> Purchase:
@@ -20,23 +22,8 @@ class PurchaseService:
         purchase.baked_good.price = Decimal(purchase.baked_good.price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
 
         if purchase.customer_email is not None:
-            customer = self._customer_repository.get_by_email(purchase.customer_email)
-            
-        if customer is not None:
-            customer.lifetime_spent = (
-                    Decimal(str(customer.lifetime_spent))
-                    + Decimal(str(purchase.baked_good.price))
-                ).quantize(
-                    Decimal("0.01"),
-                    rounding=ROUND_HALF_EVEN
-                )
-            
-            self._customer_repository.update(
-                    customer.id,
-                    customer
-                )
-
-        return self._purchase_repository.add(purchase)
+            self._customer_service.add_to_lifetime_spending(purchase.customer_email, purchase.baked_good.price)
+            return self._repository.add(purchase)
 
     def get_all_purchases(self) -> list[Purchase]:
         return self._repository.get_all()
