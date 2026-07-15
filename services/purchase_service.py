@@ -1,16 +1,16 @@
 
 from models import purchase
 from repositories.customer_repository import CustomerRepository
-from repositories.purchase_repository import Purchase_repository
+from repositories.purchase_repository import PurchaseRepository
 from models.purchase import Purchase
 from exceptions import DuplicatePurchaseError, PurchaseNotFoundError
 from datetime import datetime, timezone
 from decimal import Decimal, ROUND_HALF_EVEN
 
-purchase.baked_good.price = Decimal(purchase.baked_good.price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
+# purchase.BakedGood.sales_price = Decimal(purchase.BakedGood.sales_price).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
 
 class PurchaseService:
-    def __init__(self, purchase_repository: Purchase_repository):
+    def __init__(self, purchase_repository: PurchaseRepository):
         self._repository = purchase_repository
 
     def create_purchase(self, purchase: Purchase) -> Purchase:

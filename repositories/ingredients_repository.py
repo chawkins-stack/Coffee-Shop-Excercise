@@ -1,5 +1,4 @@
 # repositories/ingredients_repository.py
-from models.baked_good import Ingredient
 from models.ingredients import Ingredient
 
 class IngredientRepository:
