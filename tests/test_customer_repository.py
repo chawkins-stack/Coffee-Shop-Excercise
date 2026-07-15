@@ -41,4 +41,31 @@ def test_add_customer():
     data.add(c_10)
     assert data.get_by_id(2010) is c_10
 
-# def test_update_existing_id():
+def test_update_existing_id():
+    c_11 = Customer(
+        2011,
+        "Spongebob Squarepants",
+        "ssquarepants@bikinibottom.com",
+        0.97
+    )
+    data = customer_dataset()
+    data.update(2001, c_11)
+    assert data.get_by_id(2011) and not data.get_by_id(2001)
+
+def test_update_nonexistent_id():
+    c_12 = Customer(
+        2012,
+        "Patrick Star",
+        "pstar@bikinibottom.com",
+        0.01
+    )
+    data = customer_dataset()
+    assert data.update(9996, c_12) is None
+
+def test_delete_existing_customer():
+    data = customer_dataset()
+    data.delete(2000)
+    assert data.get_by_id(2000) is None
+
+def test_delete_nonexistent_customer():
+    assert customer_dataset().delete(9995) is False
