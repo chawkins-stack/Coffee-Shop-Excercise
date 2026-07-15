@@ -64,7 +64,7 @@ class CustomerService:
             and customer_with_email.id != customer.id
         ):
             raise DuplicateCustomerError(
-                f"Customer with email '{customer.email}' already exists."
+                f"Customer with email '{customer.email}' already exists.")
 
         customer.lifetime_spend = Decimal(
             str(customer.lifetime_spend)
@@ -74,6 +74,24 @@ class CustomerService:
         )
  
         return self._repository.update(customer.id, customer)
+
+    def add_to_lifetime_spent(self, email: str, amount: Decimal) -> Customer | None:
+        customer = self.get_by_email(email)
+        if customer is None:
+            return None
+            
+        if customer.lifetime_spend is None:
+            customer.lifetime_spend = Decimal("0.00")
+
+        customer.lifetime_spend = (
+            Decimal(str(customer.lifetime_spend))
+            + Decimal(str(amount))
+        ).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_EVEN
+        )
+        
+        return self.update_customer(customer)
 
     def delete_customer(self, id: Number) -> None:
         self._repository.delete(id)
