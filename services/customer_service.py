@@ -65,8 +65,14 @@ class CustomerService:
         ):
             raise DuplicateCustomerError(
                 f"Customer with email '{customer.email}' already exists."
-            )
 
+        customer.lifetime_spend = Decimal(
+            str(customer.lifetime_spend)
+        ).quantize(
+            Decimal("0.01"),
+            rounding=ROUND_HALF_EVEN
+        )
+ 
         return self._repository.update(customer.id, customer)
 
     def delete_customer(self, id: Number) -> None:
