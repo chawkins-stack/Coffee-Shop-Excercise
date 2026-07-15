@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from decimal import Decimal
 
 # Import models
 from models.customer import Customer
@@ -61,7 +62,7 @@ def create_drink_ui():
 def create_baked_good_ui():
     print("\n--- Create Baked Good ---")
     name = input("Item name: ")
-    price = float(input("Price: "))
+    price = Decimal(input("Price: "))
 
     baked_good = BakedGood(name=name, price=price)
     baked_good_service.create_baked_good(baked_good)
