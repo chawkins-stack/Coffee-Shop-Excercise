@@ -5,7 +5,6 @@ from typing import Optional
 
 @dataclass
 class BakedGood:
-    id: Number
     name: str
     purchasing_cost: Decimal
     marking_percentage: Decimal
