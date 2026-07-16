@@ -26,11 +26,11 @@ class PurchaseRepository:
         return purchase
 
     def update (self, timestamp: datetime, purchase: Purchase) -> Purchase | None:
-        existing_purchase = self.get_by_id(timestamp)
-        if existing_purchase:
-            existing_purchase.timestamp = purchase.timestamp.astimezone(datetime.timezone.utc)
-            return existing_purchase
-        return None
+        for index, existing_purchase in enumerate(self._purchases):
+            if existing_purchase.timestamp == timestamp:
+                purchase.timestamp = purchase.timestamp.astimezone(timezone.utc)
+                self._purchases[index] = purchase
+                return purchase
 
     def delete(self, timestamp: datetime) -> bool:
         purchase = self.get_by_id(timestamp)
