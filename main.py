@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 # Import models
-from exceptions import BakedGoodNotFoundError, CustomerNotFoundError, DrinkNotFoundError, DuplicateBakedGoodError, DuplicateCustomerError, DuplicateDrinkError, DuplicateIngredientError, DuplicatePurchaseError, InvalidBakedGoodError, InvalidDrinkError
+from exceptions import BakedGoodNotFoundError, CustomerNotFoundError, DrinkNotFoundError, DuplicateBakedGoodError, DuplicateCustomerError, DuplicateDrinkError, DuplicateIngredientError, DuplicatePurchaseError, IngredientNotFoundError, InvalidBakedGoodError, InvalidDrinkError
 from models.customer import Customer
 from models.baked_good import BakedGood
 from models.purchase import Purchase
@@ -231,6 +231,32 @@ def add_ingredient_ui():
 
     except Exception as e:
         print(f"Unexpected error: {e}\n")
+
+def update_ingredient_ui():
+    print("\n--- Update Ingredient ---")
+
+    ingredients = ingredient_service.get_all_ingredients()
+    for i in ingredients:
+        print(f"{i.id}. {i.name} - {i.unit_amount}{i.unit_of_measure} @ ${i.purchasing_cost}")
+
+    try:
+        ing_id = int(input("Enter ingredient ID: "))
+        ingredient = ingredient_service.get_by_id(ing_id)
+    except IngredientNotFoundError as e:
+        print(e)
+        return
+
+    print("Leave fields blank to keep current values.")
+
+    new_name = input(f"New name ({ingredient.name}): ").strip() or ingredient.name
+    new_cost = input(f"New cost ({ingredient.purchasing_cost}): ").strip()
+    new_cost = Decimal(new_cost) if new_cost else ingredient.purchasing_cost
+
+    ingredient.name = new_name
+    ingredient.purchasing_cost = new_cost
+
+    ingredient_service.update_ingredient(ingredient)
+    print("Ingredient updated.\n")
 
 def create_purchase_ui():
     print("\n--- Create Purchase ---")
