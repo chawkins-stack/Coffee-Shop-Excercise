@@ -11,3 +11,12 @@ def test_get_by_id_is_d_09():
 
 def test_get_by_id_nonexistent_drink():
     assert drink_dataset().get_by_id(9696) is None
+
+def test_get_by_name_is_d_01():
+    assert drink_dataset().get_by_name(1302) is d_01
+
+def test_get_by_name_is_d_08():
+    assert drink_dataset().get_by_name(1309) is d_08
+
+def test_get_by_name_nonexistent_drink():
+    assert drink_dataset().get_by_name(9797) is None
