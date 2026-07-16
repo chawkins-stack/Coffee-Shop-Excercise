@@ -20,3 +20,16 @@ def test_get_by_name_is_i_10():
 
 def test_get_by_name_nonexistent_name():
     assert ingredient_dataset().get_by_name("Soy Milk") is None
+
+def test_add_ingredient():
+    i_17 = Ingredient(
+        "Condensed Milk",
+        12.99,
+        50,
+        "oz",
+    )
+    data = ingredient_dataset()
+    data.add(i_17)
+    assert data.get_by_id(4918) is i_17
+
+# def test_update_existing_id():
