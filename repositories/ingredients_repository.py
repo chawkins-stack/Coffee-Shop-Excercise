@@ -7,7 +7,7 @@ from models.ingredients import Ingredient
 class IngredientRepository:
     def __init__(self):
         self._ingredients: list[Ingredient] = []
-        self._next_id = 1
+        self._next_id = 4901
 
     def get_all(self) -> list[Ingredient]:
         return self._ingredients

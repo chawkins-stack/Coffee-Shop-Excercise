@@ -4,7 +4,7 @@ from numbers import Number
 class DrinkRepository:
     def __init__(self):
         self._drinks: list[Drink] = []
-        self._next_id = 1
+        self._next_id = 1301
 
     def get_all(self) -> list[Drink]:
         return self._drinks
