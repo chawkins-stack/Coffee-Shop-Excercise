@@ -1,9 +1,8 @@
 from models.drink import Drink
 from repositories.drink_repository import DrinkRepository
-from ingredient_test_data import i_00, i_01, i_02, i_03, i_04, i_05, i_06, i_07, i_08, i_09, i_10, i_11, i_12, i_13, i_14, i_15, i_16, i_17
+from tests.ingredient_test_data import i_00, i_01, i_02, i_03, i_04, i_05, i_06, i_07, i_08, i_09, i_10, i_11, i_12, i_13, i_14, i_15, i_16
 
 d_00 = Drink(
-    3000,
     "Classic Espresso",
     [i_00, i_01],
     0.45,
@@ -11,7 +10,6 @@ d_00 = Drink(
     1.50,
 )
 d_01 = Drink(
-    3001,
     "Vanilla Latte",
     [i_00, i_02, i_03],
     0.95,
@@ -19,7 +17,6 @@ d_01 = Drink(
     3.70,
 )
 d_02 = Drink(
-    3002,
     "Caramel Macchiato",
     [i_00, i_02, i_03, i_04],
     1.10,
@@ -27,7 +24,6 @@ d_02 = Drink(
     4.00,
 )
 d_03 = Drink(
-    3003,
     "Cold Brew",
     [i_01, i_05],
     0.60,
@@ -35,7 +31,6 @@ d_03 = Drink(
     2.50,
 )
 d_04 = Drink(
-    3004,
     "Matcha Green Tea Latte",
     [i_02, i_06, i_08],
     1.35,
@@ -43,7 +38,6 @@ d_04 = Drink(
     4.40,
 )
 d_05 = Drink(
-    3005,
     "Mocha Frappe",
     [i_00, i_02, i_08, i_09, i_10],
     1.50,
@@ -51,7 +45,6 @@ d_05 = Drink(
     4.50,
 )
 d_06 = Drink(
-    3006,
     "Chai Tea Latte",
     [i_02, i_11, i_12],
     1.05,
@@ -59,7 +52,6 @@ d_06 = Drink(
     3.90,
 )
 d_07 = Drink(
-    3007,
     "Hot Chocolate",
     [i_02, i_10, i_13, i_14],
     0.80,
@@ -67,7 +59,6 @@ d_07 = Drink(
     2.80,
 )
 d_08 = Drink(
-    3008,
     "Iced Americano",
     [i_00, i_01, i_09],
     0.50,
@@ -75,7 +66,6 @@ d_08 = Drink(
     1.70,
 )
 d_09 = Drink(
-    3009,
     "Lavender Honey Oat Milk Latte",
     [i_00, i_07, i_15, i_16],
     1.60,

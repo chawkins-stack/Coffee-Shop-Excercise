@@ -57,4 +57,4 @@ def test_delete_existing_ingredient():
     assert ingredient_dataset().delete(4906)
 
 def test_delete_nonexistent_ingredient():
-    assert ingredient_dataset.delete(9393) is False
+    assert ingredient_dataset().delete(9393) is False
