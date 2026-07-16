@@ -9,7 +9,7 @@ def test_get_by_name_is_bg_00():
 def test_get_by_name_is_bg_09():
     assert baked_goods_dataset().get_by_name("Coconut Macaron") == bg_09
 
-def test_get_by_name_is_none():
+def test_get_by_name_nonexistent_baked_good_name():
     assert baked_goods_dataset().get_by_name("Mooncake") is None
 
 def test_get_by_id_is_bg_01():
@@ -18,7 +18,7 @@ def test_get_by_id_is_bg_01():
 def test_get_by_id_is_bg_08():
     assert baked_goods_dataset().get_by_id(6709) == bg_08
 
-def test_get_by_id_is_none():
+def test_get_by_id_nonexistent_baked_good_id():
     assert baked_goods_dataset().get_by_id(9999) is None
 
 def test_add_baked_good():
@@ -43,13 +43,23 @@ def test_update_existing_baked_good():
         ["Wheat", "Milk", "Eggs"]
     )
     data.update(6703, bg_11)
-    print(data.get_by_id(6703))
     assert data.get_by_name("Brioche Cinnamon Roll") and not data.get_by_name("Cinnamon Roll")
+
+def test_update_nonexistent_baked_good():
+    data = baked_goods_dataset()
+    bg_12 = BakedGood(
+        "Egg Tart",
+        1.20,
+        0.75,
+        "Sugarplum Dessert Distributors",
+        ["Milk", "Eggs", "Butter"],
+    )
+    assert data.update(9191, bg_12) is None
 
 def test_delete_existing_baked_good():
     data = baked_goods_dataset()
-    data.delete(6704)
-    assert data.get_by_id(6704) is None
+    data.delete(6705)
+    assert data.get_by_id(6705) is None
 
 def test_delete_nonexistent_baked_good():
     assert baked_goods_dataset().delete(9998) is False

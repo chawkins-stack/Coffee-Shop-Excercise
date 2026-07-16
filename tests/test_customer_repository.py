@@ -9,7 +9,7 @@ def test_get_by_id_is_c_04():
 def test_get_by_id_is_c_05():
     assert customer_dataset().get_by_id(1206) is c_05
 
-def test_get_by_id_nonexistent_id():
+def test_get_by_id_nonexistent_customer_id():
     assert customer_dataset().get_by_id(9898) is None
 
 def test_get_by_name_is_c_03():
@@ -18,7 +18,7 @@ def test_get_by_name_is_c_03():
 def test_get_by_name_is_c_06():
     assert customer_dataset().get_by_name("Jarquetta") is c_06
 
-def test_get_by_name_nonexistent_name():
+def test_get_by_name_nonexistent_customer_name():
     assert customer_dataset().get_by_name("LeBron James") is None
 
 def test_get_by_email_is_c_02():
@@ -27,7 +27,7 @@ def test_get_by_email_is_c_02():
 def test_get_by_email_is_c_07():
     assert customer_dataset().get_by_email("ocasselle@sdipresence.com") is c_07
 
-def test_get_by_email_nonexistent_email():
+def test_get_by_email_nonexistent_customer_email():
     assert customer_dataset().get_by_email("johnny.appleseed@gmail.com") is None
 
 def test_add_customer():
@@ -40,18 +40,17 @@ def test_add_customer():
     data.add(c_10)
     assert data.get_by_id(1211) is c_10
 
-def test_update_existing_id():
+def test_update_existing_customer():
     c_11 = Customer(
         "Spongebob Squarepants",
         "ssquarepants@bikinibottom.com",
-        0.97
+        0.97,
     )
     data = customer_dataset()
     data.update(1202, c_11)
-    print(data.get_all())
     assert data.get_by_name("Spongebob Squarepants") and not data.get_by_name("Ciera")
 
-def test_update_nonexistent_id():
+def test_update_nonexistent_customer():
     c_12 = Customer(
         "Patrick Star",
         "pstar@bikinibottom.com",
