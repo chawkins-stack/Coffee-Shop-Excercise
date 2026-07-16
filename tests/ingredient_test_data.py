@@ -98,7 +98,7 @@ i_15 = Ingredient(
     "fl oz",
 )
 i_16 = Ingredient(
-    "Lavendar Syrup",
+    "Lavender Syrup",
     10.25,
     750,
     "ml",

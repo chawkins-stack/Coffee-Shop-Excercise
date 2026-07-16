@@ -40,7 +40,7 @@ def test_add_customer():
     data.add(c_10)
     assert data.get_by_id(1211) is c_10
 
-def test_update_existing_customer_id():
+def test_update_existing_customer():
     c_11 = Customer(
         "Spongebob Squarepants",
         "ssquarepants@bikinibottom.com",
@@ -50,7 +50,7 @@ def test_update_existing_customer_id():
     data.update(1202, c_11)
     assert data.get_by_name("Spongebob Squarepants") and not data.get_by_name("Ciera")
 
-def test_update_nonexistent_customer_id():
+def test_update_nonexistent_customer():
     c_12 = Customer(
         "Patrick Star",
         "pstar@bikinibottom.com",
