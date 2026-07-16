@@ -27,8 +27,8 @@ class IngredientNotFoundError(Exception):
 
 ''' Custom Customer Exception Handeling '''
 class DuplicateCustomerError(Exception):
-    def __init__(self, name: str):
-        super().__init__(f"Customer '{name}' already exists.")
+    def __init__(self, email: str):
+        super().__init__(f"Customer with email '{email}' already exists.")
 
 class CustomerNotFoundError(Exception):
     def __init__(self, name: str):
