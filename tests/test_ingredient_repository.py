@@ -20,3 +20,41 @@ def test_get_by_name_is_i_10():
 
 def test_get_by_name_nonexistent_name():
     assert ingredient_dataset().get_by_name("Soy Milk") is None
+
+def test_add_ingredient():
+    i_17 = Ingredient(
+        "Condensed Milk",
+        12.99,
+        50,
+        "oz",
+    )
+    data = ingredient_dataset()
+    data.add(i_17)
+    assert data.get_by_id(4918) is i_17
+
+def test_update_existing_ingredient():
+    i_18 = Ingredient(
+        "Strawberry Preserves",
+        7.99,
+        12,
+        "oz",
+    )
+    data = ingredient_dataset()
+    data.update(4917, i_18)
+    assert data.get_by_name("Strawberry Preserves") and not data.get_by_name("Lavendar Syrup")
+
+def test_update_nonexistent_ingredient():
+    i_19 = Ingredient(
+        "Sweet Potato Paste",
+        12.65,
+        17,
+        "oz"
+    )
+    data = ingredient_dataset()
+    assert data.update(9494, i_19) is None
+
+def test_delete_existing_ingredient():
+    assert ingredient_dataset().delete(4906)
+
+def test_delete_nonexistent_ingredient():
+    assert ingredient_dataset().delete(9393) is False
