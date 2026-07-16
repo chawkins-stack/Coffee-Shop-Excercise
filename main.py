@@ -115,7 +115,7 @@ def create_baked_good_ui():
     except DuplicateBakedGoodError as e:
         print(e)
 
-    except InvalidDrinkError as e:
+    except BakedGoodInvalidError as e:
         print(e)
 
     except Exception as e:
