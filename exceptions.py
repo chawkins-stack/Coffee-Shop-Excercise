@@ -48,6 +48,10 @@ class BakedGoodNotFoundError(Exception):
     def __init__(self, name: str):
         super().__init__(f"Baked good '{name}' was not found.")
 
+class InvalidBakedGoodError(Exception):
+    def __init__(self, message: str):
+        super().__init__(message)
+
     
 ''' Custom Purchase Exception Handeling '''
 class DuplicatePurchaseError(Exception):
