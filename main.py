@@ -2,7 +2,7 @@ from datetime import datetime, timezone
 from decimal import Decimal
 
 # Import models
-from exceptions import BakedGoodNotFoundError, DrinkNotFoundError, DuplicateBakedGoodError, DuplicateDrinkError, DuplicateIngredientError, DuplicatePurchaseError, InvalidDrinkError
+from exceptions import BakedGoodNotFoundError, DrinkNotFoundError, DuplicateBakedGoodError, DuplicateCustomerError, DuplicateDrinkError, DuplicateIngredientError, DuplicatePurchaseError, InvalidBakedGoodError, InvalidDrinkError
 from models.customer import Customer
 from models.baked_good import BakedGood
 from models.purchase import Purchase
@@ -40,14 +40,21 @@ ingredient_service = IngredientService(ingredient_repo)
 
 def create_customer_ui():
     print("\n--- Create Customer ---")
-    name = input("Name: ")
-    email = input("Email: ")
 
-    customer = Customer(name=name, email=email, lifetime_spent=0)
-    customer_service.create_customer(customer)
+    try:
+        name = input("Name: ")
+        email = input("Email: ")
 
-    print(f"Customer '{name}' created.\n")
+        customer = Customer(name=name, email=email, lifetime_spent=0)
+        customer_service.create_customer(customer)
 
+        print(f"Customer '{name}' created.\n")
+
+    except DuplicateCustomerError as e:
+        print(e)
+
+    except Exception as e:
+        print(f"Unexpected error: {e}\n")
 
 def create_drink_ui():
     print("\n--- Create Drink ---")
@@ -108,7 +115,7 @@ def create_baked_good_ui():
     except DuplicateBakedGoodError as e:
         print(e)
 
-    except InvalidDrinkError as e:
+    except InvalidBakedGoodError as e:
         print(e)
 
     except Exception as e:
@@ -188,7 +195,9 @@ def create_purchase_ui():
             timestamp=datetime.now(timezone.utc)
         )
 
-        purchase_service.create_purchase(purchase)
+        created = purchase_service.create_purchase(purchase)
+        receipt = purchase_service.format_receipt(created)
+        print(receipt)
         print("Purchase created.\n")
 
     except DuplicatePurchaseError as e:
@@ -231,6 +240,168 @@ def view_purchases_ui():
         print(f"Purchase {p.id} by Customer {p.Customer.id} at {p.timestamp}")
     print()
 
+def customer_menu():
+    while True:
+        print("\n--- Customer Menu ---")
+        print("1. Create Customer")
+        print("2. View Customers")
+        print("0. Back")
+        print("-----------------------\n")
+
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            create_customer_ui()
+        elif choice == "2":
+            view_customers_ui()
+        elif choice == "0":
+            break
+        else:
+            print("Invalid option.")
+
+def drink_menu():
+    while True:
+        print("\n--- Drink Menu ---")
+        print("1. Create Drink")
+        print("2. View Drinks")
+        print("0. Back")
+
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            create_drink_ui()
+        elif choice == "2":
+            view_drinks_ui()
+        elif choice == "0":
+            break
+        else:
+            print("Invalid option.")
+
+def baked_good_menu():
+    while True:
+        print("\n--- Baked Goods Menu ---")
+        print("1. Create Baked Good")
+        print("2. View Baked Goods")
+        print("0. Back")
+
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            create_baked_good_ui()
+        elif choice == "2":
+            view_baked_goods_ui()
+        elif choice == "0":
+            break
+        else:
+            print("Invalid option.")
+
+def ingredient_menu():
+    while True:
+        print("\n--- Ingredient Menu ---")
+        print("1. Add Ingredient")
+        print("2. View Ingredients")
+        print("0. Back")
+
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            add_ingredient_ui()
+        elif choice == "2":
+            view_ingredients_ui()
+        elif choice == "0":
+            break
+        else:
+            print("Invalid option.")
+
+def purchase_menu():
+    while True:
+        print("\n--- Purchase Menu ---")
+        print("1. Create Purchase")
+        print("2. View Purchases")
+        print("0. Back")
+        print("-----------------------------------")
+
+        choice = input("Choose an option: ").strip()
+
+        if choice == "1":
+            create_purchase_ui()
+        elif choice == "2":
+            view_purchases_ui()
+        elif choice == "0":
+            break
+        else:
+            print("Invalid option.")
+
+
+def seed_demo_data():
+    print("\nLoading demo data...")
+
+    # --- Customers ---
+    try:
+        customer_service.create_customer(Customer("Arlette Diaz", "adiaz@gmail.com", 0))
+        customer_service.create_customer(Customer("Ciera Watts", "cwatts@gmail.com", 0))
+        customer_service.create_customer(Customer("Chamar Hawkins", "chawkins@gmail.com", 0))
+        customer_service.create_customer(Customer("Brennan Idor", "bidor@gmail.com", 0))
+    except Exception as e:
+        print(f"Customer seed error: {e}")
+
+    # --- Ingredients ---
+    try:
+        ingredient_service.create_ingredient(Ingredient("Milk", Decimal("1.00"), 1, "cup"))
+        ingredient_service.create_ingredient(Ingredient("Espresso", Decimal("0.50"), 1, "shot"))
+        ingredient_service.create_ingredient(Ingredient("Chocolate", Decimal("0.75"), 1, "tbsp"))
+    except Exception as e:
+        print(f"Ingredient seed error: {e}")
+
+    # --- Drinks ---
+    try:
+        latte = Drink(
+            name="Latte",
+            ingredients=[
+                Ingredient("Milk", 1, 1, "cup"),
+                Ingredient("Espresso", 0.5, 1, "shot")
+            ],
+            cost_to_produce=Decimal("1.50"),
+            markup_percentage=Decimal("0.50")
+        )
+        drink_service.create_drink(latte)
+
+        mocha = Drink(
+            name="Mocha",
+            ingredients=[
+                Ingredient("Milk", 1, 1, "cup"),
+                Ingredient("Espresso", 0.5, 1, "shot"),
+                Ingredient("Chocolate", 0.75, 1, "tbsp")
+            ],
+            cost_to_produce=Decimal("2.00"),
+            markup_percentage=Decimal("0.50")
+        )
+        drink_service.create_drink(mocha)
+
+    except Exception as e:
+        print(f"Drink seed error: {e}")
+
+    # --- Baked Goods ---
+    try:
+        baked_good_service.create_baked_good(BakedGood(
+            name="Croissant",
+            purchasing_cost=Decimal("1.50"),
+            marking_percentage=Decimal("0.50"),
+            vendor_name="Bakery Co",
+            allergens=["gluten", "dairy"]
+        ))
+
+        baked_good_service.create_baked_good(BakedGood(
+            name="Blueberry Muffin",
+            purchasing_cost=Decimal("2.25"),
+            marking_percentage=Decimal("0.50"),
+            vendor_name="Bakery Co",
+            allergens=["gluten", "eggs"]
+        ))
+    except Exception as e:
+        print(f"Baked good seed error: {e}")
+
+    print("Demo data loaded.\n")
 
 def main_menu():
     while True:
@@ -238,48 +409,33 @@ def main_menu():
 -----------------------------------
         CAFE MANAGEMENT SYSTEM
 -----------------------------------
-1. Create Customer
-2. Create Drink
-3. Create Baked Good
-4. Add Ingredient
-5. Create Purchase
-6. View Customers
-7. View Drinks
-8. View Ingredients
-9. View Baked Goods
-10. View Purchases
+1. Customers
+2. Drinks
+3. Baked Goods
+4. Ingredients
+5. Purchases
 0. Exit
 -----------------------------------
 """)
 
-        choice = input("Choose an option: ")
+        choice = input("Choose an option: ").strip()
 
         if choice == "1":
-            create_customer_ui()
+            customer_menu()
         elif choice == "2":
-            create_drink_ui()
+            drink_menu()
         elif choice == "3":
-            create_baked_good_ui()
+            baked_good_menu()
         elif choice == "4":
-            add_ingredient_ui()
+            ingredient_menu()
         elif choice == "5":
-            create_purchase_ui()
-        elif choice == "6":
-            view_customers_ui()
-        elif choice == "7":
-            view_drinks_ui()
-        elif choice == "8":
-            view_ingredients_ui()
-        elif choice == "9":
-            view_baked_goods_ui()
-        elif choice == "10":
-            view_purchases_ui()
+            purchase_menu()
         elif choice == "0":
             print("Goodbye!")
             break
         else:
-            print("Invalid choice.\n")
-
+            print("Invalid option. Try again.")
 
 if __name__ == "__main__":
+    seed_demo_data()
     main_menu()

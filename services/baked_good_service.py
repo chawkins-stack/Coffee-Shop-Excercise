@@ -2,7 +2,7 @@ from numbers import Number
 from models import baked_good
 from repositories.baked_good_repository import BakedGoodRepository
 from models.baked_good import BakedGood
-from exceptions import DuplicateBakedGoodError, BakedGoodNotFoundError 
+from exceptions import DuplicateBakedGoodError, BakedGoodNotFoundError, InvalidBakedGoodError 
 from decimal import Decimal, ROUND_HALF_EVEN
 
 # sales_price = BakedGood.sales_price.quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN)
@@ -22,6 +22,22 @@ class BakedGoodService:
         if baked_good is None:
             raise BakedGoodNotFoundError(f"Baked good with ID '{id}' was not found.")
         return baked_good
+    
+    def validate_baked_good(self, baked_good: BakedGood) -> None:
+        if not baked_good.name or len(baked_good.name) == 0:
+            raise InvalidBakedGoodError(f"Baked good '{baked_good.name}' is invalid.")
+        
+        if baked_good.purchasing_cost <= 0:
+            raise InvalidBakedGoodError(f"Baked good '{baked_good.name}' is invalid.")
+        
+        if baked_good.marking_percentage <= 0:
+            raise InvalidBakedGoodError(f"Baked good '{baked_good.name}' is invalid.")
+        
+        if not baked_good.vendor_name:
+            raise InvalidBakedGoodError(f"Baked good '{baked_good.name}' is invalid.")
+        
+        if not isinstance(baked_good.allergens, list):
+            raise InvalidBakedGoodError(f"Baked good '{baked_good.name}' is invalid.")
     
     def get_all_baked_goods(self) -> list[BakedGood]:
         return self._repository.get_all()

@@ -19,9 +19,7 @@ class CustomerService:
             )
 
         if not self.is_unique_email(customer.email):
-            raise DuplicateCustomerError(
-                f"Customer with email '{customer.email}' already exists."
-            )
+            raise DuplicateCustomerError(customer.email)
 
         return self._repository.add(customer)
 

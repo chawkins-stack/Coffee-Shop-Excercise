@@ -31,8 +31,8 @@ class InvalidIngredientError(Exception):
 
 ''' Custom Customer Exception Handeling '''
 class DuplicateCustomerError(Exception):
-    def __init__(self, name: str):
-        super().__init__(f"Customer '{name}' already exists.")
+    def __init__(self, email: str):
+        super().__init__(f"Customer with email '{email}' already exists.")
 
 class CustomerNotFoundError(Exception):
     def __init__(self, name: str):
@@ -47,6 +47,10 @@ class DuplicateBakedGoodError(Exception):
 class BakedGoodNotFoundError(Exception):
     def __init__(self, name: str):
         super().__init__(f"Baked good '{name}' was not found.")
+
+class InvalidBakedGoodError(Exception):
+    def __init__(self, message: str):
+        super().__init__(message)
 
     
 ''' Custom Purchase Exception Handeling '''
